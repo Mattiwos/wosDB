@@ -1,14 +1,18 @@
+#ifndef MAIN_H
+#define MAIN_H
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <unistd.h>
+#endif
+#include "include/create.h"
 
-int main(void){
-	//char filename[] = "mattiwos";
-	//createDatabase(filename);
-	mkdir("test", 0700);
-	printf("Making folder");
+
+int main(int argc, char *argv[]){
+	char storageloc[] = "storage/";
+	strcat(storageloc,argv[1]);
+	printf("Location of file %s",storageloc);
+	createDatabase(storageloc);
 	return 0;
 };

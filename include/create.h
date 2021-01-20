@@ -3,7 +3,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
+#include <time.h>
 struct Database
 {
 	char name[69];
@@ -29,14 +32,33 @@ struct Field{
 	int id;
 	char data[];
 };
-char* root = "storage/";
+/*
+int main(void){
+
+	return 0;
+}
+*/
+int dbCheck(){
+	FILE *manfest = fopen("manfest.bin","r");
+	struct Database database;
+	
+	while(fread(&database,sizeof(struct Database),1,manfest) )
+		printf("DBname: %s, ID: %d ||\n",database.name,database.id);
+	fclose(manfest);
+	return 0;
+};
+
 int createDatabase(char* name){
-	printf("creating database");
-	system(strcat("mkdir",name));
-	FILE *manfest = fopen("manfest.bin","wb");
+	printf("Creating Database\n");
+	mkdir(name, 0777);	
+
+	FILE *manfest = fopen("manfest.bin","ab");
 	struct Database database;
 	strcpy(database.name ,name);
+	srand((unsigned)time(NULL));
+	database.id = rand();
 	fwrite(&database, sizeof(struct Database),1,manfest);
 	fclose(manfest);
+	dbCheck();
 	return 0;
 };
