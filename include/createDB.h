@@ -7,39 +7,16 @@
 #include <sys/types.h>
 #endif
 #include <time.h>
-struct Database
-{
-	char name[69];
-  int space;
-	int id;
-	char location[];
-};
-struct Table{
-	char name[69];
-	int space;
-	int id;
-	char location[];
-};
-struct Record{
-	char name[69];
-	int space;
-	int id;
-	char location[];
-};
-struct Field{
-	char name[69];
-	int space;
-	int id;
-	char data[];
-};
+#define festloc "manfest.bin"
+#include "structDB.h"
 /*
 int main(void){
 
 	return 0;
 }
 */
-int dbCheck(){
-	FILE *manfest = fopen("manfest.bin","r");
+int listManfest(){
+	FILE *manfest = fopen(festloc,"r");
 	struct Database database;
 	
 	while(fread(&database,sizeof(struct Database),1,manfest) )
@@ -48,17 +25,34 @@ int dbCheck(){
 	return 0;
 };
 
-int createDatabase(char* name){
-	printf("Creating Database\n");
-	mkdir(name, 0777);	
-
-	FILE *manfest = fopen("manfest.bin","ab");
+int dbExistsCheck(char* name){
+	FILE *manfest = fopen(festloc,"r");
 	struct Database database;
+	
+	while(fread(&database,sizeof(struct Database),1,manfest) )
+		if (strcmp(database.name,name) == 0){
+			printf("Database already exists\n");
+			perror("Database already exists \n");
+			exit(EXIT_FAILURE); 
+		}
+			
+	fclose(manfest);
+	return 0;
+
+};
+
+
+int createDatabase(char* name){
+	dbExistsCheck(name);
+	printf("Creating Database\n");
+	struct Database database;
+	mkdir(name, 0777);	
+	FILE *manfest = fopen(festloc,"ab");
 	strcpy(database.name ,name);
 	srand((unsigned)time(NULL));
 	database.id = rand();
 	fwrite(&database, sizeof(struct Database),1,manfest);
 	fclose(manfest);
-	dbCheck();
+	listManfest();
 	return 0;
 };

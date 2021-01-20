@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #endif
-#include "include/create.h"
+#include "include/createDB.h"
 
 
 int main(int argc, char *argv[]){

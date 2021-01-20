@@ -4,7 +4,7 @@ SHELL = /bin/sh
 CC=gcc #compiler
 TARGET=main #target file name
 CFLAGS=-g -Wall
-INCLUDE=include/create.h
+INCLUDE=include/*
 all: 
 	$(CC) $(CFLAGS) $(INCLUDE) main.c -o $(TARGET)
 
