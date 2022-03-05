@@ -19,9 +19,10 @@ int listManfest(){
 	FILE *manfest = fopen(festloc,"r");
 	struct Database database;
 	
-	while(fread(&database,sizeof(struct Database),1,manfest) )
-		printf("DBname: %s, ID: %d ||\n",database.name,database.id);
+	while(fread(&database,sizeof(struct Database),1,manfest) != EOF )
+		printf("DBname: %s || ID: %d\n",database.name,database.id);
 	fclose(manfest);
+  printf("finished printing list");
 	return 0;
 };
 
@@ -29,7 +30,7 @@ int dbExistsCheck(char* name){
 	FILE *manfest = fopen(festloc,"r");
 	struct Database database;
 	
-	while(fread(&database,sizeof(struct Database),1,manfest) )
+	while(fread(&database,sizeof(struct Database),1,manfest) != EOF )
 		if (strcmp(database.name,name) == 0){
 			printf("Database already exists\n");
 			perror("Database already exists \n");
@@ -43,16 +44,17 @@ int dbExistsCheck(char* name){
 
 
 int createDatabase(char* name){
+  printf("Checking if %s exists\n", name);
 	dbExistsCheck(name);
 	printf("Creating Database\n");
 	struct Database database;
-	mkdir(name, 0777);	
-	FILE *manfest = fopen(festloc,"ab");
-	strcpy(database.name ,name);
-	srand((unsigned)time(NULL));
-	database.id = rand();
-	fwrite(&database, sizeof(struct Database),1,manfest);
+	mkdir(name, 0777);//creates folder in Storage (default)	
+	FILE *manfest = fopen(festloc,"ab");//Main Manfest Location (writ in b)
+	strcpy(database.name ,name);//sets database name
+	srand((unsigned)time(NULL));//seed
+	database.id = rand();//random id number
+	fwrite(&database, sizeof(struct Database),1,manfest); //database struct
 	fclose(manfest);
-	listManfest();
+	listManfest(); //lists existing values in DB
 	return 0;
 };
