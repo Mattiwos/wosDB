@@ -3,7 +3,7 @@ A database created using C which is able to store
 both key and value data and document-oriented data.  
 
 
-##Plan:  
+## Plan:    
 - [ ] Each DB has its own manifest  
 - [ ] DB has two types Key/Value and Document  
 - [ ] Be able to find, add, delete data
