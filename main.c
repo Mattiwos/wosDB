@@ -8,10 +8,13 @@
 #endif
 
 #include "include/createDB.h"
+#include "include/statusDB.h"
+
+// Main
 #include <unistd.h> //used for gitop()
 
 //Vars
-#define OPTIONS "c:"
+#define OPTIONS "c:l"
 #define StorageLocation "Storage/"
 
 char *conStr(char *s, char *t){
@@ -34,9 +37,13 @@ int main(int argc, char *argv[]){
         printf("Finished creating Database at %s \n",
         conStr(storageLoc, optarg));
         break;
+      case 'l':
+	      listManfest(); //lists existing values in DB
+        break;
       default:
         break;
      }
     }
-	return 0;
+
+	return EXIT_SUCCESS;
 };
