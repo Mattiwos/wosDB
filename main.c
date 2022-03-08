@@ -7,14 +7,20 @@
 #include <sys/types.h>
 #endif
 
-#include "include/createDB.h"
+#ifndef STATUS_H
+#define STATUS_H
 #include "include/statusDB.h"
+#endif 
+
+#include "include/createDB.h"
+#include "include/deleteDB.h"
+
 
 // Main
 #include <unistd.h> //used for gitop()
 
 //Vars
-#define OPTIONS "c:l"
+#define OPTIONS "c:ld:"
 #define StorageLocation "Storage/"
 
 char *conStr(char *s, char *t){
@@ -34,8 +40,13 @@ int main(int argc, char *argv[]){
     switch(opt) {
       case 'c':
         createDatabase(conStr(storageLoc, optarg));
-        printf("Finished creating Database at %s \n",
-        conStr(storageLoc, optarg));
+        printf("Finished Creating  Database at %s \n",
+        optarg);
+        break;
+      case 'd':
+        deleteDatabase(conStr(storageLoc,optarg));
+        printf("Finished Deleting Database at %s \n",
+        optarg);
         break;
       case 'l':
 	      listManfest(); //lists existing values in DB

@@ -13,27 +13,18 @@
 #include "structDB.h"
 #endif
 
-#include <time.h>
-int dbExistsCheck(char* name){
-	FILE *manfest = fopen(festloc,"r");
-  if (!manfest){//checks if manfest exists
-    perror("Manfest file does not exist \n");
-    exit(EXIT_FAILURE);
-  }
-	struct Database database;
-	while(fread(&database,sizeof(struct Database),1,manfest) == 1)
-		if (strcmp(database.name,name) == 0){
-			perror("Database already exists \n");
-			exit(EXIT_FAILURE); 
-		}
-	fclose(manfest);
+#ifndef STATUS_H
+#define STATUS_H
+#include "statusDB.h"
+#endif
 
-	return EXIT_SUCCESS;
-};
+#include <time.h>
 
 int registerDatabase(char* dbName){
   printf("Registering Database to Main Manfest \n");
+
 	FILE *manfest = fopen(festloc,"ab");//Main Manfest Location (writ in b)
+
   if (!manfest){//checks if manfest exists
     perror("Manfest file does not exist \n");
     exit(EXIT_FAILURE);
@@ -52,12 +43,14 @@ int registerDatabase(char* dbName){
 
 int createDatabase(char* name){
   printf("Checking if %s exists\n", name);
-	dbExistsCheck(name);
+	if (dbExistsCheck(name) == EXIT_SUCCESS){
+    return EXIT_FAILURE; 
+  }
   
 	printf("Creating Database\n");
 	mkdir(name, 0777);//creates folder in Storage (default)	
   
   registerDatabase(name);//Registers Database to manfest
 
-	return 0;
+	return EXIT_SUCCESS;
 };
