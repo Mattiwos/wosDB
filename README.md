@@ -10,10 +10,11 @@ both key and value data and document-oriented data.
 ### ./wosDB -flag  
 - Runs databases and instruciton
 is determined by flag and input  
-### -flag:  
--c **input**: creates a databases named after input  
--d **input**: deletes a databases named after input  
--l: lists current databases in manifest  
+#### -flag:  
+- -c **input**: creates a databases named after input  
+- -d **input**: deletes a databases named after input  
+- -l: lists current databases in manifest  
+
 ## Plan:    
 - [ ] Each DB has its own manifest  
 - [ ] DB has two types Key/Value and Document  
@@ -31,6 +32,6 @@ is determined by flag and input
 
 
 
-# Test Tools:  
+## Test Tools:  
 - valgrind  
 
