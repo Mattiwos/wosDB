@@ -9,8 +9,10 @@
 
 #ifndef CLASSIC_DB
 #define CLASSIC_DB
-#define festloc "manfest.bin"
+
+#define festloc "Storage/manfest.bin"
 #include "structDB.h"
+
 #endif
 
 #ifndef STATUS_H
