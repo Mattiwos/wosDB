@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+#.Files
+.vscode
+
 #Manfiest containing database
 *.bin
 
