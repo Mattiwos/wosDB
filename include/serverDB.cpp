@@ -6,10 +6,9 @@
 #include <sys/socket.h>
 #include <thread>
 //#include <fstream>      // std::ifstream
-#include <cstring>
 #include <mutex>
 #include <unistd.h>
-std::mutex mtx;
+#include "handleRequests.h"
 
 #define PORT        8080
 #define BUFFER_SIZE 2048
@@ -38,7 +37,8 @@ void serverDB ::startServer() {
     return;
 }
 void serverDB ::listenServer(int threadcount) {
-    nthreads = threadcount; //create nthread in h file
+    nthreads = threadcount; //// Adjust as needed
+    //create nthread in h file
     //create threads
     //call worker threads
     if (listen(sockfd, 3) < 0) {
@@ -67,28 +67,7 @@ void serverDB ::thread_worker(int thread_id) {
         cout << "Thread " << thread_id << " starting" << endl;
         while (1) {
             int conn = req_queue.dequeue();
-
-            // Parse connection with a class (not implemented in your provided code)
-            // Read it
-            int total_read = 0;
-            char buffer[BUFFER_SIZE];
-            while (total_read < BUFFER_SIZE && strstr(buffer, "\r\n\r\n") == NULL) {
-                int bytes_read = 0;
-                bytes_read = read(conn, buffer + total_read, BUFFER_SIZE - total_read);
-
-                total_read += bytes_read;
-                if (bytes_read == 0) {
-                    break;
-                } else if (bytes_read == -1) {
-                    // Handle error
-                    break;
-                }
-            }
-            cout << "Read: " << buffer << endl;
-
-            // Process the read data or perform other tasks
-
-            // Close the connection (you might want to add proper handling here)
+            HandleConnection handle(conn);            
             close(conn);
         }
     } catch (const std::exception &e) {

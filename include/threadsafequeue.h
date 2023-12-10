@@ -1,19 +1,21 @@
-#include <iostream>
-#include <queue>
-#include <mutex>
 #include <condition_variable>
+#include <iostream>
+#include <mutex>
+#include <queue>
 
-template <typename T>
-class ThreadSafeQueue {
+template <typename T> class ThreadSafeQueue {
 public:
     // Constructor with maximum size
-    ThreadSafeQueue(size_t maxSize) : maxSize_(maxSize) {}
+    ThreadSafeQueue(size_t maxSize)
+        : maxSize_(maxSize) {
+    }
 
     // Destructor
-    ~ThreadSafeQueue() {}
+    ~ThreadSafeQueue() {
+    }
 
     // Enqueue an element into the queue
-    void enqueue(const T& value) {
+    void enqueue(const T &value) {
         std::unique_lock<std::mutex> lock(mutex_);
         conditionFull_.wait(lock, [this] { return queue_.size() < maxSize_; });
         queue_.push(value);
