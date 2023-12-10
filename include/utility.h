@@ -6,4 +6,4 @@ using namespace std;
 
 string Hash(string);
 
-#endif 
+#endif

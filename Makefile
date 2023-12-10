@@ -31,4 +31,4 @@ scan-build: clean
 	scan-build make
 
 format:
-	clang-format -i -style=FILE *.c *.cpp include/*.h
+	clang-format -i -style=FILE *.c *.cpp include/*.h include/*.cpp
