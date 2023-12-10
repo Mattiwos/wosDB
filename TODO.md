@@ -1,0 +1,5 @@
+- [ ] make queue for request workload threadsafe and able to set max size
+- [ ] be able to parse the http requests 
+- [ ] follow the commands from the requests and start storing data and retrieving it 
+- [ ] passwds 
+- [ ] diagnosis 
