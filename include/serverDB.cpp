@@ -55,7 +55,7 @@ void serverDB ::listenServer(int threadcount) {
     while (1) {
         new_socket = accept(sockfd, (struct sockaddr *) &address, &addrlen);
         //push to queue and contuine listening
-        req_queue.push(new_socket);
+        req_queue.enqueue(new_socket);
     }
     ////join threads
     for (int i = 0; i < nthreads; i++) {
@@ -66,13 +66,7 @@ void serverDB ::thread_worker(int thread_id) {
     try {
         cout << "Thread " << thread_id << " starting" << endl;
         while (1) {
-            int conn = 0;
-            if (!req_queue.empty()) {
-                conn = req_queue.front();
-                req_queue.pop();
-            } else {
-                continue;
-            }
+            int conn = req_queue.dequeue();
 
             // Parse connection with a class (not implemented in your provided code)
             // Read it

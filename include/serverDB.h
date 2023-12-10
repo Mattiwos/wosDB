@@ -4,13 +4,14 @@
 #include <netinet/in.h>
 #include <queue>
 #include <sys/socket.h>
+#include "threadsafequeue.h"
 
 class serverDB {
 
 public:
     int sockfd;
     int nthreads;
-    std::queue<int> req_queue; //set it to bounded buffer later to retrain overload
+    ThreadSafeQueue<int> req_queue; //set it to bounded buffer later to retrain overload
     struct sockaddr_in address;
     void startServer();
     void stopServer();

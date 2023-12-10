@@ -1,5 +1,12 @@
-- [ ] make queue for request workload threadsafe and able to set max size
+- [x] make queue for request workload threadsafe and able to set max size
 - [ ] be able to parse the http requests 
-- [ ] follow the commands from the requests and start storing data and retrieving it 
+        - create handler class 
+        - inital read reads socket pipeline and builds stuct of request
+        - identify method (get // POST // etc)
+        - respond with the correct response might need to create a response class
+- [ ] follow the commands from the requests and start storing data and retrieving it
+        - use json or some other format to figure out where to store it 
+        - be able to tae commands to create containers/folders and be able to adjust for different method of storage
 - [ ] passwds 
 - [ ] diagnosis 
+        - log all commands coming though pipeline
