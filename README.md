@@ -27,7 +27,7 @@ starts server @8080 with local addr
 - [ ] Each DB has its own manifest  
 - [ ] DB has two types Key/Value and Document  
 - [ ] Be able to find, add, delete data
-- [ ] DB has its own server running to recieve request from
+- [x] DB has its own server running to recieve request from
       the user  
 - [ ] Test efficancy using it as a database for wosCV  
 - [ ] Add the ability to regex documment to find matching tables and
