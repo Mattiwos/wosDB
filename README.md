@@ -11,9 +11,17 @@ both key and value data and document-oriented data.
 - Runs databases and instruciton
 is determined by flag and input  
 #### -flag:  
+- s: starts server to listen to port 8080 (default)  
 - -c **input**: creates a databases named after input  
 - -d **input**: deletes a databases named after input  
 - -l: lists current databases in manifest  
+
+### Start Up wosDB server
+```
+make  
+./wosDB -s
+```
+starts server @8080 with local addr  
 
 ## Plan:    
 - [ ] Each DB has its own manifest  
