@@ -1,6 +1,7 @@
 #ifndef handleDB_H
 #define handleDB_H
 
+#include "messageProtocol.h"
 #include <string>
 #include <unordered_map>
 
@@ -39,6 +40,9 @@ private:
     void respond(); //maybe take in code
     //writes out to buffer about bytes time
     void write_n_bytes(int socketid, char *buffer, int length);
+    //parses emssag header
+    void  printMsg (MsgHeader x);
+
 
     void handle();
 public:

@@ -7,6 +7,7 @@
 #include <thread>
 //#include <fstream>      // std::ifstream
 #include <mutex>
+#include <cstdlib> // For std::getenv
 #include <unistd.h>
 #include "handleRequests.h"
 
@@ -17,6 +18,8 @@ using namespace std;
 
 void serverDB ::startServer() {
     int opt = 1;
+    //const char* db_port = (getenv("DB_PORT"));
+   // cout << "Port: " << db_port << endl;
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         cout << "socket failed" << endl;
     }

@@ -7,6 +7,7 @@ OBJECTS := wosDB.o utility.o serverDB.o handleRequests.o
 
 TARGET = wosDB 
 
+client: clientDB
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
