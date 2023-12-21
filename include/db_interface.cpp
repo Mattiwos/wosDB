@@ -1,6 +1,8 @@
+#include <string.h>
+#include "messageProtocol.h"
 #include "db_interface.h"
 
-
+using namespace std;
 //class Database {
 //  private:
 //    registerDatabase(char *dbName);
@@ -16,15 +18,14 @@
 //return 0 if all ok
 //return 1 if an error has occured
 //establish its own variable for verified user
-int Database :: connectDatase (OP_CONNECT data){
-  assert(data);
+int Database::connectDatabase(OP_CONNECT data) {
   const char* test = "test";
-  if (strcmp(data.user, test) == 0 && strcmp(data.pass, test)){
+  if (strcmp(data.username, test) == 0 && strcmp(data.password, test)){
     verified = 1;
     return 0;
   }
   return 1;
-}
+};
 
 
 

@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string>
 #include <cstring>
+#include "db_interface.h"
 
 //todo`
 //create a verified variable to confim a connection OP has been sent and established
@@ -64,8 +65,17 @@ void HandleConnection :: printMsg (MsgHeader x){
 void HandleConnection :: parseRequest(char buffer[BUFFER_SIZE]){
   //read msg headero
   struct MsgHeader header;
+  //create a database in private
   memcpy(&header, buffer, sizeof(MsgHeader));
   printMsg(header);
+  cout << "buffer: " << buffer << endl;
+  if (header.opCode == 0){
+    struct OP_CONNECT conn;
+    memcpy(&conn, buffer, sizeof(OP_CONNECT));
+    //int status = db.connectDatabase(conn);
+    cout << "User: " << *conn.username << endl;
+    //cout << "Connection status: " << status << endl;
+  }
   cout << "Parse this: " << buffer << endl;
   return;
 }

@@ -21,8 +21,9 @@ struct OP_CONNECT {//connection needs to be SSL/TLS
   //store locally after hashing password
   //search local file for password and etc 
   //might not need to encrupt it since ssl will take care of that
-  string username;
-  string password; 
+  MsgHeader header;
+  const char *username;
+  const char *password; 
 };
 // OP_createDB 1:
 struct OP_CREATE {

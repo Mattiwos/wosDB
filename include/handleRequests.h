@@ -4,6 +4,7 @@
 #include "messageProtocol.h"
 #include <string>
 #include <unordered_map>
+#include "db_interface.h"
 
 #define BUFFER_SIZE 2048
 
@@ -29,6 +30,7 @@ class HandleConnection {
 private:
     int connid;
     struct Request request;
+    Database db;
     //parses buffer with regex
     void parseRequest(char buffer[BUFFER_SIZE]);
     //Innput header line

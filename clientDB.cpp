@@ -4,19 +4,20 @@
 #include <iostream>
 
 #include <stdio.h>
+#include "include/messageProtocol.h"
 #include <netinet/in.h>
 
 #define PORT 8080
 
 
 using namespace std;
-struct MsgHeader {
-    int32_t   messageLength; // total message size, including this
-    int32_t   requestID;     // identifier for this message
-    int32_t   responseTo;    // requestID from the original request
-                           //   (used in responses from db)
-    int32_t  opCode;        // request type - see table below for details
-};
+//struct MsgHeader {
+//    int32_t   messageLength; // total message size, including this
+//    int32_t   requestID;     // identifier for this message
+//    int32_t   responseTo;    // requestID from the original request
+//                           //   (used in responses from db)
+//    int32_t  opCode;        // request type - see table below for details
+//};
 
 int main(){
   //https://www.geeksforgeeks.org/socket-programming-cc/
@@ -41,8 +42,12 @@ int main(){
    //build message using messageProtocol
    MsgHeader message;
    message.messageLength = 10;
-   message.opCode = 1;
-   write(client_fd, &message, sizeof(MsgHeader));
+   message.opCode = 0;
+   OP_CONNECT conn;
+   conn.header = message;
+   conn.username = "test";
+   conn.password = "test";
+   write(client_fd, &conn, sizeof(conn));
    close(client_fd);
   return 0;
 }
