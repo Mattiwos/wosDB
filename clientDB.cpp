@@ -43,11 +43,23 @@ int main(){
    MsgHeader message;
    message.messageLength = 10;
    message.opCode = 0;
-   OP_CONNECT conn;
-   conn.header = message;
-   conn.username = "test";
-   conn.password = "test";
-   write(client_fd, &conn, sizeof(conn));
+   //OP_CONNECT conn;
+   ////conn.header = message;
+   //memcpy(&conn.header,&message,sizeof(MsgHeader));
+   //conn.username = "test";
+   //conn.password = "test";
+   send(client_fd, &message, sizeof(message),0);
+   //cout << sizeof(conn) << endl;
+   //close(client_fd);
+    // Prepare OP_CONNECT data
+   OP_CONNECT connectData;
+   connectData.header.messageLength = sizeof(OP_CONNECT);
+   connectData.header.requestID = 1; // Replace with a suitable request ID
+   connectData.header.responseTo = 0; // Replace with a suitable response ID
+   connectData.header.opCode = 0; // Replace with the appropriate OpCode for OP_CONNECT
+   connectData.username = "your_username";
+   connectData.password = "your_password";
+   ssize_t bytesSent = send(client_fd, &connectData, sizeof(OP_CONNECT), 0);
    close(client_fd);
   return 0;
 }

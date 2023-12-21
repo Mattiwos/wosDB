@@ -1,9 +1,10 @@
 #include "handleRequests.h"
 #include "messageProtocol.h"
 #include <iostream>
-#include <unistd.h>
 #include <string>
 #include <cstring>
+#include <sys/socket.h>
+#include <unistd.h>
 #include "db_interface.h"
 
 //todo`
@@ -30,19 +31,19 @@ void HandleConnection :: handle(){
   return;
 }
 void HandleConnection :: readConn(char buffer[BUFFER_SIZE]){
-  int total_read = 0;
-  while (total_read < BUFFER_SIZE && strstr(buffer, "\r\n\r\n") == NULL) {
-      int bytes_read = 0;
-      bytes_read = read(connid, buffer + total_read, BUFFER_SIZE - total_read);
-  
-      total_read += bytes_read;
-      if (bytes_read == 0) {
-          break;
-      } else if (bytes_read == -1) {
-          // Handle error
-          break;
-      }
-  }
+  //int total_read = 0;
+  //while (total_read < BUFFER_SIZE ) {
+  //    int bytes_read = 0;
+  //    bytes_read = read(connid, buffer + total_read, BUFFER_SIZE - total_read);
+  //
+  //    total_read += bytes_read;
+  //    if (bytes_read == 0) {
+  //        break;
+  //    } else if (bytes_read == -1) {
+  //        // Handle error
+  //        break;
+  //    }
+  //}
   return;
   
 } 
@@ -64,18 +65,43 @@ void HandleConnection :: printMsg (MsgHeader x){
 }
 void HandleConnection :: parseRequest(char buffer[BUFFER_SIZE]){
   //read msg headero
-  struct MsgHeader header;
+  MsgHeader header;
+    // Receive data into a buffer
+  int bytesRead = recv(connid, &header, sizeof(MsgHeader),0);
   //create a database in private
-  memcpy(&header, buffer, sizeof(MsgHeader));
+  //memcpy(&header, buffer, sizeof(MsgHeader));
   printMsg(header);
-  cout << "buffer: " << buffer << endl;
+  //cout << "buffer: " << buffer << endl;
+  //cout << "Buffer_size: "<< sizeof(buffer) << endl;
+  cout << "header_size: "<< sizeof(MsgHeader) << endl;
   if (header.opCode == 0){
-    struct OP_CONNECT conn;
-    memcpy(&conn, buffer, sizeof(OP_CONNECT));
+    cout << "CONNECT" << endl;
+    OP_CONNECT connectData;
+    ssize_t bytesRead = recv(connid, &connectData, sizeof(OP_CONNECT), 0);
+    if (bytesRead == -1) {
+        perror("Error receiving data");
+        return;
+    } else if (bytesRead == 0) {
+        std::cerr << "Connection closed by the client\n";
+        return;
+    } else if (bytesRead != sizeof(OP_CONNECT)) {
+        std::cerr << "Received incomplete data\n";
+        return;
+    }
+    //while (bytesReceived < sizeof(OP_CONNECT)) {
+    //  ssize_t bytesRead = recv(connid, reinterpret_cast<char*>(&connectData) + bytesReceived, sizeof(OP_CONNECT) - bytesReceived, 0);
+    //  if (bytesRead <= 0) {
+    //      // Handle error or connection closed
+    //      break;
+    //  }
+    //  bytesReceived += bytesRead;
+    //}
+    //bytesRead += recv(connid, &conn, sizeof(OP_CONNECT),0);
+    //memcpy(&conn, buffer, sizeof(OP_CONNECT));
     //int status = db.connectDatabase(conn);
-    cout << "User: " << *conn.username << endl;
+    cout << "User: " << connectData.password << endl;
     //cout << "Connection status: " << status << endl;
   }
-  cout << "Parse this: " << buffer << endl;
+  //cout << "Parse this: " << buffer << endl;
   return;
 }

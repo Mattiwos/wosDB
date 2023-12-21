@@ -17,6 +17,7 @@ struct MsgHeader {
     int32_t  opCode;        // request type - see table below for details
 };
 //OP_Connect : 0
+#pragma pack(push, 1) // Set alignment to 1 byte
 struct OP_CONNECT {//connection needs to be SSL/TLS
   //store locally after hashing password
   //search local file for password and etc 
@@ -25,6 +26,8 @@ struct OP_CONNECT {//connection needs to be SSL/TLS
   const char *username;
   const char *password; 
 };
+#pragma pack(pop) // Restore default alignment
+
 // OP_createDB 1:
 struct OP_CREATE {
  typeDB type; //just create KV_DB 
