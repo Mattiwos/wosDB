@@ -19,16 +19,23 @@ is determined by flag and input
 ### Start Up wosDB server
 ```
 make  
-./wosDB -s
+./bin/main -s
 ```
 starts server @8080 with local addr  
 
+### Test wosDB server with client
+```
+make  
+./bin/main -c [port:: (use 8080)]
+```
+
 ## Plan:    
+- [x] DB has its own server running to recieve request from
+      the user 
+- [ in-progress ] Work on scalable messageProtocol used for DB  
 - [ ] Each DB has its own manifest  
 - [ ] DB has two types Key/Value and Document  
 - [ ] Be able to find, add, delete data
-- [x] DB has its own server running to recieve request from
-      the user  
 - [ ] Test efficancy using it as a database for wosCV  
 - [ ] Add the ability to regex documment to find matching tables and
       return it to the user  
