@@ -19,7 +19,7 @@ using namespace std;
 //return 1 if an error has occured
 //establish its own variable for verified user
 int Database::connectDatabase(OP_CONNECT data) {
-  const char* test = "test";
+  char* test = "test";
   if (strcmp(data.username, test) == 0 && strcmp(data.password, test)){
     verified = 1;
     return 0;

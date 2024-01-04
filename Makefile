@@ -1,39 +1,53 @@
-CXX = g++ 
-DEPS = include
-CXXFLAGS = -Wall -std=c++11 
+CXX := g++
+CXXFLAGS := -std=c++11 -Wall
+SRC_DIR := src
+INCLUDE_DIR := include
+BUILD_DIR := build
+BIN_DIR := bin
+TEST_DIR := test
 
-FILE = /home/wos/Repos/github.com/mattiwos/wosDB/.clang-format
-OBJECTS := wosDB.o utility.o serverDB.o handleRequests.o db_interface.o
+# Source files
+SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+# Object files
+OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
+# Executable name
+TARGET := $(BIN_DIR)/main
 
-TARGET = wosDB 
+# Include directory
+INCLUDES := -I$(INCLUDE_DIR)
 
-client: clientDB
+# Test source files
+TEST_SRCS := $(wildcard $(TEST_DIR)/*.cpp)
+# Test object files
+TEST_OBJS := $(patsubst $(TEST_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(TEST_SRCS))
+# Test executable name
+TEST_TARGET := $(BIN_DIR)/test_main
+
 all: $(TARGET)
 
-$(TARGET): $(OBJECTS)
-	$(CXX) -g $(CXXFLAGS) -o $@ wosDB.o utility.o serverDB.o handleRequests.o db_interface.o
+$(TARGET): $(OBJS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^
 
-wosDB.o: wosDB.cpp
-	$(CXX) -g $(CXXFLAGS) -c wosDB.cpp
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
 
-utility.o: $(DEPS)/utility.cpp  $(DEPS)/utility.h
-	$(CXX) -g $(CXXFLAGS) -c  $(DEPS)/utility.cpp
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
 
-serverDB.o: $(DEPS)/serverDB.cpp $(DEPS)/serverDB.h
-	$(CXX) -g $(CXXFLAGS) -c $(DEPS)/serverDB.cpp
+$(TEST_TARGET): $(TEST_OBJS) $(OBJS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^
 
-handleRequests.o: $(DEPS)/handleRequests.cpp $(DEPS)/handleRequests.h
-	$(CXX) -g $(CXXFLAGS) -c $(DEPS)/handleRequests.cpp
-
-db_interface.o: $(DEPS)/db_interface.cpp $(DEPS)/db_interface.h
-	$(CXX) -g $(CXXFLAGS) -c $(DEPS)/db_interface.cpp
+$(BUILD_DIR)/%.o: $(TEST_DIR)/%.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
 
 clean:
-	rm -f *.o 
-	rm wosDB 
+	rm -rf $(BUILD_DIR) $(BIN_DIR)
 
-scan-build: clean
-	scan-build make
+.PHONY: all test clean
 
 format:
 	clang-format -i -style=FILE *.c *.cpp include/*.h include/*.cpp

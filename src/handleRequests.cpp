@@ -77,7 +77,12 @@ void HandleConnection :: parseRequest(char buffer[BUFFER_SIZE]){
   if (header.opCode == 0){
     cout << "CONNECT" << endl;
     OP_CONNECT connectData;
-    ssize_t bytesRead = recv(connid, &connectData, sizeof(OP_CONNECT), 0);
+    bytesRead += recv(connid, &connectData.username, sizeof(connectData.username), 0);
+    bytesRead += recv(connid, &connectData.password, sizeof(connectData.password), 0);
+    // for (size_t i = 0; i < bytesRead; ++i) { //Debug message
+    //   cout << ((unsigned char*)&connectData)[i];
+    // }
+    // cout << endl;
     if (bytesRead == -1) {
         perror("Error receiving data");
         return;
@@ -88,19 +93,13 @@ void HandleConnection :: parseRequest(char buffer[BUFFER_SIZE]){
         std::cerr << "Received incomplete data\n";
         return;
     }
-    //while (bytesReceived < sizeof(OP_CONNECT)) {
-    //  ssize_t bytesRead = recv(connid, reinterpret_cast<char*>(&connectData) + bytesReceived, sizeof(OP_CONNECT) - bytesReceived, 0);
-    //  if (bytesRead <= 0) {
-    //      // Handle error or connection closed
-    //      break;
-    //  }
-    //  bytesReceived += bytesRead;
-    //}
-    //bytesRead += recv(connid, &conn, sizeof(OP_CONNECT),0);
-    //memcpy(&conn, buffer, sizeof(OP_CONNECT));
-    //int status = db.connectDatabase(conn);
+    // for (size_t i = 0; i < sizeof(connectData.password)/sizeof(char); ++i) {
+    //   cout << connectData.password[i];
+    // }
+    cout << "User: " << connectData.username << endl;
+
     cout << "User: " << connectData.password << endl;
-    //cout << "Connection status: " << status << endl;
+  //   //cout << "Connection status: " << status << endl;
   }
   //cout << "Parse this: " << buffer << endl;
   return;
