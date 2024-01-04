@@ -5,24 +5,17 @@
 
 class Database {
 
-  private:
+private:
     void registerDatabase(char *dbName);
     int verified = 1;
 
-  public:
+public:
     int connectDatabase(OP_CONNECT data);
     //void createDatabase(OP_CREATE base);
     //void deleteDatabase(OP_DELETE base);
     //void readDatabase(OP_QUERY msg);
     //void updateDatabase(OP_UPDATE msg);
     //void insertDatabase(OP_INSERT msg);
-
 };
-
-
-
-
-
-
 
 #endif

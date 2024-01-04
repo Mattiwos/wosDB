@@ -1,10 +1,11 @@
 #ifndef handleDB_H
 #define handleDB_H
 
+#include "db_interface.h"
 #include "messageProtocol.h"
+
 #include <string>
 #include <unordered_map>
-#include "db_interface.h"
 
 #define BUFFER_SIZE 2048
 
@@ -43,17 +44,16 @@ private:
     //writes out to buffer about bytes time
     void write_n_bytes(int socketid, char *buffer, int length);
     //parses emssag header
-    void  printMsg (MsgHeader x);
-
+    void printMsg(MsgHeader x);
 
     void handle();
+
 public:
     HandleConnection();
     HandleConnection(int conn);
     //create connection will get connid
     //build a connection request struct containaining information about the request
     //create an enum for it
-
 };
 
 #endif

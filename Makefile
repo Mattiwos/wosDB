@@ -50,4 +50,4 @@ clean:
 .PHONY: all test clean
 
 format:
-	clang-format -i -style=FILE *.c *.cpp include/*.h include/*.cpp
+	clang-format -i -style=FILE *.c *.cpp include/*.h src/*.cpp

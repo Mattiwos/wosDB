@@ -1,6 +1,8 @@
-#include <string.h>
-#include "messageProtocol.h"
 #include "db_interface.h"
+
+#include "messageProtocol.h"
+
+#include <string.h>
 
 using namespace std;
 //class Database {
@@ -19,14 +21,10 @@ using namespace std;
 //return 1 if an error has occured
 //establish its own variable for verified user
 int Database::connectDatabase(OP_CONNECT data) {
-  char* test = "test";
-  if (strcmp(data.username, test) == 0 && strcmp(data.password, test)){
-    verified = 1;
-    return 0;
-  }
-  return 1;
+    char *test = "test";
+    if (strcmp(data.username, test) == 0 && strcmp(data.password, test)) {
+        verified = 1;
+        return 0;
+    }
+    return 1;
 };
-
-
-
-

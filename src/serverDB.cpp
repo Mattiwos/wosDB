@@ -6,10 +6,11 @@
 #include <sys/socket.h>
 #include <thread>
 //#include <fstream>      // std::ifstream
-#include <mutex>
-#include <cstdlib> // For std::getenv
-#include <unistd.h>
 #include "handleRequests.h"
+
+#include <cstdlib> // For std::getenv
+#include <mutex>
+#include <unistd.h>
 
 #define PORT        8080
 #define BUFFER_SIZE 2048
@@ -19,7 +20,7 @@ using namespace std;
 void serverDB ::startServer() {
     int opt = 1;
     //const char* db_port = (getenv("DB_PORT"));
-   // cout << "Port: " << db_port << endl;
+    // cout << "Port: " << db_port << endl;
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         cout << "socket failed" << endl;
     }
@@ -70,7 +71,7 @@ void serverDB ::thread_worker(int thread_id) {
         cout << "Thread " << thread_id << " starting" << endl;
         while (1) {
             int conn = req_queue.dequeue();
-            HandleConnection handle(conn);            
+            HandleConnection handle(conn);
             close(conn);
         }
     } catch (const std::exception &e) {
