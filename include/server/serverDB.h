@@ -11,7 +11,9 @@
 class serverDB {
 private:
     int sockfd;
+
     int nthreads;
+
     ThreadSafeQueue<int> req_queue {
         QUEUE_BUFFER
     }; //set it to bounded buffer later to retrain overload

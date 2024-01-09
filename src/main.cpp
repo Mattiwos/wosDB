@@ -1,5 +1,5 @@
-#include "clientDB.h"
-#include "serverDB.h"
+#include "client/clientDB.h"
+#include "server/serverDB.h"
 
 #include <cstring> //to use strlen
 #include <iostream> //to print to console

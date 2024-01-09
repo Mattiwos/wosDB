@@ -1,4 +1,4 @@
-#include "serverDB.h"
+#include "server/serverDB.h"
 
 #include <iostream>
 #include <netinet/in.h>
@@ -6,7 +6,7 @@
 #include <sys/socket.h>
 #include <thread>
 //#include <fstream>      // std::ifstream
-#include "handleRequests.h"
+#include "server/handleRequests.h"
 
 #include <cstdlib> // For std::getenv
 #include <mutex>

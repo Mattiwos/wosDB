@@ -1,6 +1,6 @@
-#include "handleRequests.h"
+#include "server/handleRequests.h"
 
-#include "db_interface.h"
+#include "db/db_interface.h"
 #include "messageProtocol.h"
 
 #include <cstring>
