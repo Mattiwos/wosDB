@@ -46,6 +46,24 @@ make
 - [ ] Create a long-term data storage type with maxium reliability  
 
 
+## Contributors ✨  
+<table>
+  <tbody>
+    <tr>  
+            <td align="center" valign="top" width="14.28%">
+              <a href="https://github.com/Mattiwos">
+                <img src="https://avatars.githubusercontent.com/u/44147357?v=4" width="100px;" alt="Jeroen Engels"/>
+                <br />
+                <sub><b>Mattiwos</b></sub>
+              </a><br />
+              <a href="https://github.com/mattiwos/wosDB/commits?author=mattiwos" title="Documentation">📖</a> <a href="https://github.com/mattiwos/wosDB/pulls?q=mattiwos" title="Reviewed Pull Requests">👀</a> 
+              <a href="#tool-mattiwos" title="Tools">🔧</a>
+          </td>
+  </tr> 
+
+  </tbody>
+</table>
+
 
 ## Test Tools:  
 - valgrind  
