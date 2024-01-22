@@ -46,6 +46,9 @@ make
 - [ ] Create a long-term data storage type with maxium reliability  
 
 
+## Test Tools:  
+- valgrind  
+
 ## Contributors ✨  
 <table>
   <tbody>
@@ -64,7 +67,4 @@ make
   </tbody>
 </table>
 
-
-## Test Tools:  
-- valgrind  
 
