@@ -37,13 +37,15 @@ int main(int argc, char *argv[]) {
         case 'l': listAllDatabases(); break;
         case 'c': clientDB(stoi(optarg)); break;
         case 'h':
+            // Print usage instructions
             cout << "Usage: ./wosDB -[flags]" << endl;
             cout << "Flags:" << endl;
             cout << "-s: Starts the database Server" << endl;
-            cout << "-l: Lists all dataBases on server" << endl;
-            cout << "-h: Prints Instruction on using wosDB" << endl;
+            cout << "-l: Lists all databases on server" << endl;
+            cout << "-c: Connects to the specified database index" << endl;
+            cout << "-h: Prints instructions on using wosDB" << endl;
             break;
-        default: break;
+        default: startServer(); break;
         }
     }
 
