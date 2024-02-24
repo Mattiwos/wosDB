@@ -12,27 +12,37 @@
 #include <mutex>
 #include <unistd.h>
 
-#define PORT        8080
 #define BUFFER_SIZE 2048
 
 using namespace std;
 
-void serverDB ::startServer() {
+void serverDB ::startServer(int port) {
     int opt = 1;
     //const char* db_port = (getenv("DB_PORT"));
     // cout << "Port: " << db_port << endl;
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         cout << "socket failed" << endl;
     }
-    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) {
-        cout << "setsockopt" << endl;
+#ifdef __APPLE__
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+        cout << "setsockopt(SO_REUSEADDR) failed" << endl;
         exit(EXIT_FAILURE);
     }
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt)) < 0) {
+        cout << "setsockopt(SO_REUSEPORT) failed" << endl;
+        exit(EXIT_FAILURE);
+    }
+#else
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)) < 0) {
+        cout << "setsockopt(SO_REUSEADDR | SO_REUSEPORT) failed" << endl;
+        exit(EXIT_FAILURE);
+    }
+#endif
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
+    address.sin_port = htons(port);
     // Forcefully attaching socket to the port 8080
-    if (bind(sockfd, (struct sockaddr *) &address, sizeof(address)) < 0) {
+    if (::bind(sockfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
         cout << "bind failed" << endl;
         exit(EXIT_FAILURE);
     }

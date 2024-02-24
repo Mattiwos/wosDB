@@ -21,7 +21,7 @@ private:
     void thread_worker(int thread_id);
 
 public:
-    void startServer();
+    void startServer(int port);
     void stopServer();
     void listenServer(int threadcount);
 };

@@ -61,6 +61,11 @@ int clientDB(int port) {
     // }
     // cout << endl;
     ssize_t bytesSent = send(client_fd, &connectData, sizeof(OP_CONNECT), 0);
+    if (bytesSent < 0) {
+        cout << "Failed to send OP_CONNECT message" << endl;
+        return -1;
+    }
+    cout << "Sent OP_CONNECT message, Bytes: " << bytesSent << endl;
     close(client_fd);
     return 0;
 }

@@ -9,14 +9,15 @@
 //#include "utility.h"
 // Vars
 #define OPTIONS "slhc:"
+#define PORT    8081
 
 using namespace std;
 
 void startServer() {
     //start working on serverDB class
     serverDB wosServer;
-    wosServer.startServer();
-    wosServer.listenServer(1);
+    wosServer.startServer(PORT); //input port number
+    wosServer.listenServer(1); //number of threads
     //startServer using serverDB function
 
     return;
@@ -29,9 +30,9 @@ int main(int argc, char *argv[]) {
 
     cout << "Begin parsing" << endl;
     //Argument Parser
-    int opt;
-    while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
-        switch (opt) {
+    int option;
+    while ((option = getopt(argc, argv, OPTIONS)) != -1) {
+        switch (option) {
         case 's': startServer(); break;
         case 'l': listAllDatabases(); break;
         case 'c': clientDB(stoi(optarg)); break;
