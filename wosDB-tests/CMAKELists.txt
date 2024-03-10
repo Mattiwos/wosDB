@@ -1,0 +1,34 @@
+# tests/CMakeLists.txt
+file(GLOB TEST_SOURCES "*.cpp")
+
+# Find the Google Test package
+find_package(GTest REQUIRED)
+
+foreach(testSrc ${TEST_SOURCES})
+    # Extract the filename without an extension (NAME_WE)
+    get_filename_component(testName ${testSrc} NAME_WE)
+
+    # Add a prefix to the test name
+    set(testName "test_${testName}")
+
+    # Add compile target
+    add_executable(${testName} ${testSrc})
+
+    # Link to Boost libraries AND your targets and dependencies
+    target_link_libraries(${testName} ${Boost_LIBRARIES} wosDB)
+
+    # Link Google Test to the test executable
+    target_link_libraries(${testName} GTest::GTest GTest::Main)
+
+    # If your tests need to include headers from wosDB, add the necessary directories to the include path
+    target_include_directories(${testName} PRIVATE ${WOSDB_INCLUDE_DIRS})
+
+    # Move testing binaries into a testBin directory
+    set_target_properties(${testName} PROPERTIES 
+        RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR}/testBin)
+
+    # Add it to test execution
+    add_test(NAME ${testName} 
+             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/testBin 
+             COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/testBin/${testName} )
+endforeach(testSrc)

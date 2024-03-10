@@ -9,7 +9,7 @@
 //#include "utility.h"
 // Vars
 #define OPTIONS "slhc:"
-#define PORT    8081
+#define PORT    8080
 
 using namespace std;
 
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
             cout << "-c: Connects to the specified database index" << endl;
             cout << "-h: Prints instructions on using wosDB" << endl;
             break;
-        default: startServer(); break;
+        default: break;
         }
     }
 

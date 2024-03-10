@@ -49,26 +49,22 @@ void HandleConnection ::readConn(char buffer[BUFFER_SIZE]) {
     //}
     return;
 }
-//struct MsgHeader {
-//    int32_t   messageLength; // total message size, including this
-//    int32_t   requestID;     // identifier for this message
-//    int32_t   responseTo;    // requestID from the original request
-//                           //   (used in responses from db)
-//    int32_t  opCode;        // request type - see table below for details
-//}
+
 void HandleConnection ::printMsg(MsgHeader x) {
+    cout << "-------" << endl;
     cout << "Printing Message Header" << endl;
     cout << "MessageLength: " << x.messageLength << endl;
     cout << "requestID: " << x.requestID << endl;
     cout << "ResponseTo: " << x.responseTo << endl;
     cout << "OpCode: " << x.opCode << endl;
+    cout << "-------" << endl;
     //Op code
 }
 void HandleConnection ::parseRequest(char buffer[BUFFER_SIZE]) {
     //read msg headero
     MsgHeader header;
     // Receive data into a buffer
-    int bytesRead = recv(connid, &header, sizeof(MsgHeader), 0);
+    int bytesRead = recv(connid, &header, sizeof(MsgHeader), 0); //read the header first
     //create a database in private
     //memcpy(&header, buffer, sizeof(MsgHeader));
     printMsg(header);
@@ -94,13 +90,9 @@ void HandleConnection ::parseRequest(char buffer[BUFFER_SIZE]) {
             std::cerr << "Received incomplete data\n";
             return;
         }
-        // for (size_t i = 0; i < sizeof(connectData.password)/sizeof(char); ++i) {
-        //   cout << connectData.password[i];
-        // }
         cout << "User: " << connectData.username << endl;
 
         cout << "User: " << connectData.password << endl;
-        //   //cout << "Connection status: " << status << endl;
     }
     //cout << "Parse this: " << buffer << endl;
     return;

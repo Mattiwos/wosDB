@@ -67,5 +67,5 @@ int clientDB(int port) {
     }
     cout << "Sent OP_CONNECT message, Bytes: " << bytesSent << endl;
     close(client_fd);
-    return 0;
+    return bytesSent;
 }

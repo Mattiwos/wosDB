@@ -1,33 +1,65 @@
 # wosDB
-A database created using C which is able to store
-both key and value data and document-oriented data.  
+A database created using C which is able to store both key and value data and document-oriented data.  
 
-## Instruction:  
+## Instructions:  
 
-### make all  
-- Makes the binary file for wosDB
+### Building the project
 
-### ./wosDB -flag  
-- Runs databases and instruciton
-is determined by flag and input  
-#### -flag:  
-- s: starts server to listen to port 8080 (default)  
-- -c **input**: creates a databases named after input  
-- -d **input**: deletes a databases named after input  
-- -l: lists current databases in manifest  
+Use the `make all` command to build the binary file for wosDB.
 
-### Start Up wosDB server
-```
-make  
-./bin/main -s
+### Running wosDB
+
+Use the `./wosDB -flag` command to run the database. The behavior of the database is determined by the flag and input.
+
+#### Flags
+
+- `s`: Starts the server and listens on port 8080 by default.
+- `-c <input>`: Creates a database named after the input.
+- `-d <input>`: Deletes a database named after the input.
+- `-l`: Lists current databases in the manifest.
+
+### Starting the wosDB server
+
+Use the following commands to start the server after building:
+
+```bash
+./bin/wosDB -s
 ```
 starts server @8080 with local addr  
 
-### Test wosDB server with client
-```
-make  
-./bin/main -c [port:: (use 8080)]
-```
+## Building with CMake
+
+CMake is used to control the software compilation process using simple platform and compiler independent configuration files. CMake generates native makefiles and workspaces that can be used in the compiler environment of your choice.
+
+Follow these steps to build the project using CMake:
+
+1. Navigate to the project directory.
+
+2. Create a new directory for the build outputs:
+
+    ```bash
+    mkdir build bin
+    cd build
+    ```
+
+3. Run CMake to generate the Makefile:
+
+    ```bash
+    cmake ..
+    ```
+
+4. Build the project:
+
+    ```bash
+    make
+    ```
+5. Run the project:
+
+    ```bash
+    cd ../
+    ./bin/wosDB -s
+    ```
+This will create the `wosDB` executable in the `bin` directory.
 
 ## Plan:    
 - [x] DB has its own server running to recieve request from

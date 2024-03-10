@@ -70,6 +70,7 @@ void serverDB ::listenServer(int threadcount) {
         new_socket = accept(sockfd, (struct sockaddr *) &address, &addrlen);
         //push to queue and contuine listening
         req_queue.enqueue(new_socket);
+        //creates a queue for requests
     }
     ////join threads
     for (int i = 0; i < nthreads; i++) {
