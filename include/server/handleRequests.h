@@ -31,7 +31,7 @@ class HandleConnection {
 private:
     int connid;
     struct Request request;
-    Database db;
+    wosDB::Database db;
     //parses buffer with regex
     void parseRequest(char buffer[BUFFER_SIZE]);
     //Innput header line

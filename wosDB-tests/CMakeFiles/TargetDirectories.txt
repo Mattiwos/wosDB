@@ -1,0 +1,5 @@
+/Users/mattiwosbelachew/Repos/github.com/mattiwos/wosDB/wosDB-tests/CMakeFiles/wosDB.dir
+/Users/mattiwosbelachew/Repos/github.com/mattiwos/wosDB/wosDB-tests/CMakeFiles/wosDB-tests.dir
+/Users/mattiwosbelachew/Repos/github.com/mattiwos/wosDB/wosDB-tests/CMakeFiles/test.dir
+/Users/mattiwosbelachew/Repos/github.com/mattiwos/wosDB/wosDB-tests/CMakeFiles/edit_cache.dir
+/Users/mattiwosbelachew/Repos/github.com/mattiwos/wosDB/wosDB-tests/CMakeFiles/rebuild_cache.dir
