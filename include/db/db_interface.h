@@ -75,13 +75,17 @@ private:
     std::map<std::string, Collection> collections; // Map of collection name to Collection
 
 public:
-    int connectDatabase(OP_CONNECT data);
-    void createEmptyCollection(OP_CREATE_COLLECTION msg);
-    void listCollection();
-    void insert(const std::string& key, const std::string& value) override;
-    std::string read(const std::string& key) const override;
-    void update(const std::string& key, const std::string& value) override;
-    void remove(const std::string& key) override;
+    // int connectDatabase(OP_CONNECT data);
+    // void createEmptyCollection(OP_CREATE_COLLECTION msg) override;
+    // void listCollection();
+    // void insert(const std::string& key, const std::string& value);
+    // std::string read(const std::string& key) const;
+    // void update(const std::string& key, const std::string& value);
+    // void remove(const std::string& key);
+    void insert(const std::string &key, const std::string &value){};
+    std::string read(const std::string &key){};
+    void update(const std::string &key, const std::string &value){};
+    void remove(const std::string &key){};
 };
 class Document : public Database { //inherets database
     // Implement the Database interface methods
