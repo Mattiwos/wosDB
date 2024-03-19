@@ -17,7 +17,7 @@ TEST(ClientDBTest, TestGetClientData) {
 //     string collectionName;
 //     int32_t flags; //encyption, compress, ???. etc
 // };
-TEST(collectionCreateTest, TestCREATE_COLLECTION) {
+TEST(CollectionTest, TestCREATE_COLLECTION) {
     OP_CREATE_COLLECTION msg;
     OP_CREATE_COLLECTION msg2;
     msg.collectionName = "test";
@@ -34,6 +34,6 @@ TEST(collectionCreateTest, TestCREATE_COLLECTION) {
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
-    
+    ::testing::GTEST_FLAG(filter) = "CollectionTest.TestCREATE_COLLECTION";    
     return RUN_ALL_TESTS();
 }
