@@ -115,4 +115,22 @@ struct OP_UPDATE_COLLECTION {
 
 #pragma pack(pop) // Restore default alignment OP_UPDATE_COLLECTION
 //OP_reply
+
+
+#pragma pack(push, 1) // Set alignment to 1 byte
+
+// OP_createDB 1:
+struct OP_CREATE_DATABASE {
+    typeDB type; //just create KV_DB
+    int32_t ZERO; // future use
+    string databaseName;
+    // std::string key; //This could be users and auths
+    // std::string value; //change the value to and from binary whenever needed
+
+    int32_t flags; //encyption, compress, ???. etc
+};
+
+#pragma pack(pop) // Restore default alignment OP_UPDATE_COLLECTION
+//OP_reply
+
 #endif

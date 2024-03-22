@@ -3,92 +3,98 @@
 
 #include "messageProtocol.h"
 
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/map.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/vector.hpp>
+#include <filesystem> // Include this at the top of your file
+#include <fstream>
+#include <iostream>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
-struct DatabaseType {
-    enum type { KeyValue, Document };
-};
+enum DatabaseType { KeyValue, Document };
 
 namespace wosDB {
 
 class Collection {
-    //eachCollects has a list of data
-private:
+private: //stored under class name folder in storage folder
     std::string collName;
     std::map<std::string, std::string> entries;
-    // Collection properties and methods...
+
 public:
-    Collection(std::string name); // Renamed the member function to a valid constructor name
+    template <class Archive> void serialize(Archive &ar, const unsigned int version) {
+        ar & collName;
+        ar & entries;
+    }
+    Collection() {
+            // Initialize your object here
+        }
+    Collection(std::string name);
     void insertData(std::string key, std::string value);
     void deleteData(std::string key);
     void updateData(std::string key, std::string value);
     std::string readData(std::string key);
-    //void addAuth(OP_ADD_AUTH msg);
-    //void removeAuth(OP_REMOVE_AUTH msg);
-    //void verifyAuth(OP_VERIFY_AUTH msg);
-    //void readDatabase(OP_QUERY msg);
-    //void updateDatabase(OP_UPDATE msg);
-    //void insertDatabase(OP_INSERT msg);
 };
 
-class Database { //prototype for the database
-
-private:
-    // void registerDatabase(char *dbName);
-    // int verified = 1;
-    // std::map<std::string, std::vector<Collection>> collections; // Map of database name to list of Collections
-
-    //list of collections
-
+class Database { //Implement the Database interface methods
 public:
-    virtual ~Database() {}
+    virtual ~Database() {
+    }
     virtual void insert(const std::string &key, const std::string &value) = 0;
     virtual std::string read(const std::string &key) = 0;
     virtual void update(const std::string &key, const std::string &value) = 0;
     virtual void remove(const std::string &key) = 0;
-
-    // int connectDatabase(OP_CONNECT data);
-    // void createEmptyCollection(OP_CREATE_COLLECTION msg);
-    // void listCollection();
-
-    // //creates a colleciton and adds it with a name
-    // void deleteCollection(OP_DELETE_COLLECTION msg);
-    // //deletes the colleciton
-    // //void readCollection(OP_READ_COLLECTION msg);
-    // void updateCollection(OP_UPDATE_COLLECTION msg);
-    // void insertCollection(OP_INSERT_COLLECTION msg);
-    // //identify which location to insert the data
-    // //then add the data to the collection by passing in key and value
-    // void deleteCollection(OP_INSERT_COLLECTION msg);
-    // //void addAuth(OP_ADD_AUTH msg);
-    // //void removeAuth(OP_REMOVE_AUTH msg);
-    // //void verifyAuth(OP_VERIFY_AUTH msg);
-    // //void readDatabase(OP_QUERY msg);
-    // //void updateDatabase(OP_UPDATE msg);
-    // //void insertDatabase(OP_INSERT msg);
+    template <class Archive>
+    void serialize(Archive & /*ar*/, const unsigned int /*version*/) {
+        // No data members to serialize
+    }
 };
+
 class KeyValue : public Database {
-private:
-    std::map<std::string, Collection> collections; // Map of collection name to Collection
+private: //store data in a folder storage under class name
+    std::map<std::string, Collection> collections;
+
+    friend class boost::serialization::access;
+
+    template <class Archive>
+    void serialize(Archive &ar, const unsigned int version) {
+        // ar & boost::serialization::base_object<Database>(*this);
+        ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Database);
+        ar & collections;
+    }
 
 public:
-    // int connectDatabase(OP_CONNECT data);
-    // void createEmptyCollection(OP_CREATE_COLLECTION msg) override;
-    // void listCollection();
-    // void insert(const std::string& key, const std::string& value);
-    // std::string read(const std::string& key) const;
-    // void update(const std::string& key, const std::string& value);
-    // void remove(const std::string& key);
-    void insert(const std::string &key, const std::string &value){};
+    void createEmptyCollection(std::string name);
+    void listCollection();
+    void insert(const std::string &key, const std::string &value) override {};
     std::string read(const std::string &key){};
-    void update(const std::string &key, const std::string &value){};
-    void remove(const std::string &key){};
+    void update(const std::string &key, const std::string &value) override {};
+    void remove(const std::string &key) override {};
 };
-class Document : public Database { //inherets database
-    // Implement the Database interface methods
+
+class Document : public Database {
+    std::map<std::string, std::string> entries;
+public:
+    void insert(const std::string &key, const std::string &value) override {};
+    std::string read(const std::string &key) override {};
+    void update(const std::string &key, const std::string &value) override {};
+    void remove(const std::string &key) override {};
+    
+    template <class Archive>
+    void serialize(Archive &ar, const unsigned int version) {
+        // Add serialization for any member variables of Document if needed
+        // ar & boost::serialization::base_object<Database>(*this);
+        ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Database);
+
+        ar & entries;
+    }
 };
 
 class DatabaseFactory {
@@ -96,26 +102,72 @@ private:
     std::map<std::string, std::shared_ptr<Database>> databases;
 
 public:
+    DatabaseFactory() {
+        loadDatabasesFromFile();
+    }
+
+    ~DatabaseFactory() {
+        saveDatabasesToFile();
+    }
+    void listDatabases();
+
     std::shared_ptr<Database> createDatabase(const std::string &name, DatabaseType type) {
         auto it = databases.find(name);
-        // DatabaseType::type type = DatabaseType::KeyValue;
         if (it != databases.end()) {
             // Database with this name already exists, return it
             return it->second;
         } else {
             // Create a new database, store it in the map, and return it
             std::shared_ptr<Database> db;
-            // if (type == DatabaseType::KeyValue) {
-            db = std::make_shared<KeyValue>();
-            // } else if (type == DatabaseType::Document) {
-                // db = std::make_shared<Document>();
-            // }
+            if (type == DatabaseType::KeyValue) {
+                db = std::make_shared<KeyValue>(); // Pass in name here
+                
+            }
+            else if (type == DatabaseType::Document) {
+                db = std::make_shared<Document>();
+            }
             databases[name] = db;
             return db;
         }
     }
+
+private:
+    void loadDatabasesFromFile() {
+        std::ifstream ifs("databases.bin");
+        if (ifs.good()) {
+            boost::archive::text_iarchive ia(ifs);
+            try {
+                ia >> databases;
+            } catch (const boost::archive::archive_exception &e) {
+                throw std::runtime_error(
+                    std::string("Error deserializing databases: ") + std::string(e.what()));
+            }
+        }
+    }
+
+    void saveDatabasesToFile() {
+        std::ofstream ofs("databases.bin");
+        if (!ofs) {
+            throw std::runtime_error(
+                std::string("Could not open file for writing: ") + std::strerror(errno));
+        }
+        boost::archive::text_oarchive oa(ofs);
+        try {
+            oa << databases;
+        } catch (const boost::archive::archive_exception &e) {
+            throw std::runtime_error(
+                std::string("Error serializing databases: ") + std::string(e.what()));
+        }
+        if (!ofs.good()) {
+            throw std::runtime_error(std::string("Error writing to file: ") + std::strerror(errno));
+        }
+    }
 };
 
+
 } // namespace wosDB
+
+
+
 
 #endif
