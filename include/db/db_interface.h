@@ -47,10 +47,10 @@ class Database { //Implement the Database interface methods
 public:
     virtual ~Database() {
     }
-    virtual void insert(const std::string &key, const std::string &value) = 0;
-    virtual std::string read(const std::string &key) = 0;
-    virtual void update(const std::string &key, const std::string &value) = 0;
-    virtual void remove(const std::string &key) = 0;
+    virtual void insert(const std::string &collName, const std::string &key, const std::string &value) = 0;
+    virtual std::string read(const std::string &collName, const std::string &key) = 0;
+    virtual void update(const std::string &collName, const std::string &key, const std::string &value) = 0;
+    virtual void remove(const std::string &collName, const std::string &key) = 0;
     template <class Archive>
     void serialize(Archive & /*ar*/, const unsigned int /*version*/) {
         // No data members to serialize
@@ -73,19 +73,19 @@ private: //store data in a folder storage under class name
 public:
     void createEmptyCollection(std::string name);
     void listCollection();
-    void insert(const std::string &key, const std::string &value) override {};
-    std::string read(const std::string &key){};
-    void update(const std::string &key, const std::string &value) override {};
-    void remove(const std::string &key) override {};
+    void insert(const std::string &collName, const std::string &key, const std::string &value);
+    std::string read(const std::string &collName, const std::string &key);
+    void update(const std::string &collName, const std::string &key, const std::string &value);
+    void remove(const std::string &collName, const std::string &key);
 };
 
 class Document : public Database {
     std::map<std::string, std::string> entries;
 public:
-    void insert(const std::string &key, const std::string &value) override {};
-    std::string read(const std::string &key) override {};
-    void update(const std::string &key, const std::string &value) override {};
-    void remove(const std::string &key) override {};
+    void insert(const std::string &collName, const std::string &key, const std::string &value) override {};
+    std::string read(const std::string &collName, const std::string &key) override {};
+    void update(const std::string &collName, const std::string &key, const std::string &value) override {};
+    void remove(const std::string &collName, const std::string &key) override {};
     
     template <class Archive>
     void serialize(Archive &ar, const unsigned int version) {
