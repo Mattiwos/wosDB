@@ -60,21 +60,31 @@ Follow these steps to build the project using CMake:
     ./bin/wosDB -s
     ```
 This will create the `wosDB` executable in the `bin` directory.
+## Immediate Goals:    
+- [ ] Improve Unit Tests for Key/Value and improve I/O rate and database schematic  
+- [ ] Store data seperatly and only grab it and place it in memory when it's needed otherwis keep in cold storage  
+- [ ] Create documentation for Key/Value database for to get an intial idea how it should work in the futureux
+- [ ] Build out Key/Value functionaility for practical use and debugging  
+- [ ] Consider adding an HTTP alterative other than just using my own messagingProtocol for fallback
+- [ ] Consider building small caches wherever is possible to help speed up performance  
+
 
 ## Plan:    
 - [x] DB has its own server running to recieve request from
       the user 
 - [ in-progress ] Work on scalable messageProtocol used for DB  
 - [ ] Each DB has its own manifest  
-- [ ] DB has two types Key/Value and Document  
-- [ ] Be able to find, add, delete data
-- [ ] Test efficancy using it as a database for wosCV  
+- [X] DB has Key/Value Database
+- [in-progress ] DB has Document Database
+- [X] Be able to find, add, delete data
+- [x] Test efficancy using it as a database I/O Rate (200-400 Operations per millisecond not definitive)
 - [ ] Add the ability to regex documment to find matching tables and
       return it to the user  
 - [ ] Create ability to encode and decode data  
 - [ ] Create a hybrid type database  (find,add,delete)  
 - [ ] Add diagnostic ability for database to check viability  
 - [ ] Add the ability to compress data  
+- [x] Basic presistance with serialization and deserialization
 - [ ] Create a long-term data storage type with maxium reliability  
 
 
